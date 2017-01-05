@@ -14,6 +14,7 @@ public class Background {
     private Star[] stars;
     private final int STARS_COUNT = 100;
 
+
     public Background(){
         texture = new Texture("staticback.jpg");
         startex = new Texture("star12.tga");
