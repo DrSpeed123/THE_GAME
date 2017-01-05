@@ -2,6 +2,7 @@ package com.myfirst.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -13,6 +14,7 @@ public class MyFirstGame extends ApplicationAdapter {
 	private Asteroid[] asteroids;
 	private final int ASTEROID_COUNT = 20;
 	public static Bullet[] bullets;
+	private static boolean paused = false;
 	
 	@Override
 	public void create () {
@@ -32,6 +34,7 @@ public class MyFirstGame extends ApplicationAdapter {
 	@Override
 	public void render () {
 		update();
+		paused();
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
@@ -53,24 +56,43 @@ public class MyFirstGame extends ApplicationAdapter {
 	}
 
 	public void  update(){
-		background.update();
-		hero.update();
-		for (int i = 0; i < asteroids.length; i++) {
-			asteroids[i].update();
-		}
-		for (int i = 0; i < bullets.length; i++) {
-			if (bullets[i].isActive())
-				bullets[i].update();
-		}
-		for (int i = 0; i < asteroids.length; i++) {
-			for (int j = 0; j < bullets.length; j++) {
-				if (asteroids[i].getRect().contains(bullets[j].getPosition())){
-//				if (asteroids[i].getPosition().cpy().sub(bullets[j].getPosition()).len() < 20){
-					asteroids[i].recreate();
-					bullets[j].destroy();
-				}
+		if (!isPaused()) {
+			background.update();
+			hero.update();
+			for (int i = 0; i < asteroids.length; i++) {
+				asteroids[i].update();
 			}
+			for (int i = 0; i < bullets.length; i++) {
+				if (bullets[i].isActive())
+					bullets[i].update();
+			}
+			for (int i = 0; i < asteroids.length; i++) {
+				for (int j = 0; j < bullets.length; j++) {
+					if (asteroids[i].getRect().contains(bullets[j].getPosition())) {
+//				if (asteroids[i].getPosition().cpy().sub(bullets[j].getPosition()).len() < 20){
+						asteroids[i].recreate();
+						bullets[j].destroy();
+					}
+				}
 
+			}
 		}
+	}
+
+	public void paused(){
+		if (!isPaused()) {
+			if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
+				paused = true;
+			}
+		}
+		else {
+			if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
+				paused = false;
+			}
+		}
+	}
+
+	public static boolean isPaused() {
+		return paused;
 	}
 }
