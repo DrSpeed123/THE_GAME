@@ -31,6 +31,10 @@ public class Hero {
         return new Rectangle(position.x, position.y, texture.getWidth(), texture.getHeight());
     }
 
+    public Vector2 getPosition() {
+        return position;
+    }
+
     public void update(){
         if (Gdx.input.isKeyPressed(Input.Keys.UP)){
             position.y +=  speed;
