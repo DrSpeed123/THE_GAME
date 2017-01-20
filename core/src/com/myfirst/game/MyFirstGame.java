@@ -67,7 +67,7 @@ public class MyFirstGame extends ApplicationAdapter {
 	public void  update(){
 		if (!isPaused()) {
             getHero_damage();
-            if (hero_damage <= 3) {
+            if (hero_damage <= 2) {
                 background.update();
                 hero.update();
                 for (int i = 0; i < asteroids.length; i++) {
